@@ -9,6 +9,10 @@ public class Main {
         Model model = new Model();
         View view = new View(model);
         new Controller(model, view);
+        
+        //weird patchy solution
+        model.updateDiameter(view.getSpinnerValue());
+        view.repaint();
 
         JFrame frame = new JFrame();
         frame.setResizable(true); 
