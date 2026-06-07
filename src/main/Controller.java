@@ -14,8 +14,9 @@ public class Controller {
         this.view.getDrawButton().addActionListener(e -> drawButtonPress(e));
     }
     
-    public void drawButtonPress(ActionEvent event){
+    private void drawButtonPress(ActionEvent event){
         model.updateDiameter(view.getSpinnerValue());
+        model.updateAlgorithm(view.getAlgorithm());
         view.repaint();
     }
 

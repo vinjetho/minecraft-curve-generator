@@ -1,16 +1,19 @@
 package main;
 
+import algorithms.ICircleAlgorithm;
+import algorithms.emptyAlgorithm;
 import grid.*;
-import misc.*;
 
 public class Model {
 
     private int diameter;
     private IGrid<BlockType> grid;
+    private ICircleAlgorithm algorithm;
 
     public Model() {
         this.diameter = 1;
         this.grid = new Grid<BlockType>(1,1);
+        this.algorithm = new emptyAlgorithm();
     }
     
     //needs javadoc
@@ -22,40 +25,22 @@ public class Model {
         } 
     }
 
-    private void updateGrid(){
-        grid = new Grid<BlockType>(diameter, diameter);
-        // fill out the grid here
-        
-        //prøv å implementer breshenhams algorithm
-        
-        //jekk om sirkelen intersecte pixelen
-        for (GridCell<BlockType> c : grid) {
-            double r = (diameter-1) / 2;
-
-            double ulX = c.pos().col() - r;
-            double ulY = c.pos().row() - r;
-            
-            double urX = c.pos().col() - r;
-            double urY = c.pos().row() - r;
-            
-            double brX = c.pos().col() - r;
-            double brY = c.pos().row() - r;
-            
-            double blX = c.pos().col() - r;
-            double blY = c.pos().row() - r;
+    public void updateAlgorithm(ICircleAlgorithm newAlgorithm){
+        if (newAlgorithm == null) {
+            throw new IllegalArgumentException("algorithm can not be be null");
+        } else {
+            this.algorithm = newAlgorithm;
         }
+    }
 
+    private void updateGrid(){
+        grid = this.algorithm.getGrid(diameter);
     }
 
     //needs javadoc
     public IGrid<BlockType> getGrid(){
-        if (grid.cols() == diameter & diameter == grid.rows()) {
-            return grid;
-        } else {
-            updateGrid();
-            return grid;
-        }
-        
+        updateGrid();
+        return grid;
     }
 
 }

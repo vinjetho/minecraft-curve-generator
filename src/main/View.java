@@ -10,12 +10,16 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
+import algorithms.ICircleAlgorithm;
+import algorithms.badAlgorithm;
+import algorithms.emptyAlgorithm;
+import algorithms.randomAlgorithm;
 import grid.*;
-import misc.BlockType;
 
 public class View extends JPanel{
 
@@ -24,9 +28,8 @@ public class View extends JPanel{
     
     private JButton cornerButton;
     private JButton drawButton;
-
     private JSpinner spinner1;
-    private JTextField spinner1Title;
+    private JComboBox algorithmBox;
 
     public View(Model model){
         this.model = model;
@@ -35,6 +38,7 @@ public class View extends JPanel{
         
         cornerButton = new JButton("i am in the corner");
         add(cornerButton);
+        
         drawButton = new JButton("Draw");
         add(drawButton);
 
@@ -42,6 +46,13 @@ public class View extends JPanel{
         spinner1.setPreferredSize(new Dimension(100, 30));
         add(spinner1);
         spinner1.setValue(10);
+
+        algorithmBox = new JComboBox<ICircleAlgorithm>();
+        algorithmBox.setPreferredSize(new Dimension(200,30));
+        algorithmBox.addItem(new badAlgorithm()); 
+        algorithmBox.addItem(new randomAlgorithm()); 
+        algorithmBox.addItem(new emptyAlgorithm()); 
+        add(algorithmBox);
 
     }
 
@@ -51,7 +62,12 @@ public class View extends JPanel{
 
     public int getSpinnerValue(){
         //dont really know if this is ok to typecast
-        return (int)spinner1.getValue();
+        return (int) spinner1.getValue();
+    }
+
+    public ICircleAlgorithm getAlgorithm(){
+        //dont really know if this is ok to typecast
+        return (ICircleAlgorithm) algorithmBox.getSelectedItem();
     }
 
 
@@ -59,24 +75,34 @@ public class View extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        //consider moving each step here into a seperate helperfunction, could be a lot cleaner
 
-        //setup
+        //setup defaults
         g2.setFont(new Font("Times New Roman", 1, 20));
         g2.setColor(new Color(128,128,128));
         
-
+        drawUI(g2);
+        drawDisplay(g2);
+        
+    }
+    
+    private void drawUI(Graphics2D g2){
+        
         //buttons
         cornerButton.setBounds(getWidth()-151,1,150,25);
         drawButton.setBounds(10,10,100,30);
         
-
         //Diamater spinner
         g2.setColor(new Color(0,0,0));
         g2.drawString("Diameter:", 10, 100);
         spinner1.setBounds(new Rectangle(new Point(10,105), spinner1.getPreferredSize()));
         
+        //algorithm dropdown
+        g2.drawString("Algorithm:", 10, 195);
+        algorithmBox.setBounds(new Rectangle(new Point(10, 200), algorithmBox.getPreferredSize()));
 
+    }
+    
+    private void drawDisplay(Graphics2D g2){
         //Display area background
         int size = Math.min(getWidth()-130, getHeight()-20);
         int cornerX = getWidth()-size-10;
@@ -90,12 +116,12 @@ public class View extends JPanel{
         //actual grid
         g2.setColor(new Color(255,255,255));
         
-        int outerMargin = 5; 
-        int cellSize = (size-(outerMargin*2))/Math.max(1,spinnerValue);
-        int roundingError = (size-(outerMargin*2))-(cellSize*spinnerValue);
-        int totalMargin = outerMargin + roundingError / 2;
-        
         IGrid<BlockType> grid = model.getGrid();
+
+        int outerMargin = 5; 
+        int cellSize = (size-(outerMargin*2))/Math.max(1,grid.rows());
+        int roundingError = (size-(outerMargin*2))-(cellSize*grid.rows());
+        int totalMargin = outerMargin + roundingError / 2;
         
         for (GridCell<BlockType> c : grid){
             //TODO: add colorscheme functionality
@@ -104,16 +130,15 @@ public class View extends JPanel{
                 g2.setColor(new Color(0,0,255));
                 g2.fill(cellBounds);
             }
-            g2.setColor(new Color(255,255,255));
+            g2.setColor(new Color(255,255,255, 128));
             g2.draw(cellBounds);
         }
 
         g2.setStroke(new BasicStroke(2));
-        g2.setColor(new Color(255,0,0));
+        g2.setColor(new Color(255,0,0, 128));
         g2.drawOval(cornerX + totalMargin + cellSize/2, cornerY + totalMargin + cellSize/2, size - totalMargin*2 - cellSize, size - totalMargin*2 - cellSize);
         g2.drawLine(cornerX+totalMargin, cornerY+size/2, cornerX+size-totalMargin, cornerY+size/2);
         g2.drawLine(cornerX+size/2, cornerY+totalMargin, cornerX+size/2, cornerY+size-totalMargin);
         
     }
-    
 }
