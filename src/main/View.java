@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 import algorithms.ICircleAlgorithm;
 import algorithms.badAlgorithm;
+import algorithms.bresenham;
 import algorithms.emptyAlgorithm;
 import algorithms.randomAlgorithm;
 import grid.*;
@@ -49,6 +50,7 @@ public class View extends JPanel{
 
         algorithmBox = new JComboBox<ICircleAlgorithm>();
         algorithmBox.setPreferredSize(new Dimension(200,30));
+        algorithmBox.addItem(new bresenham()); 
         algorithmBox.addItem(new badAlgorithm()); 
         algorithmBox.addItem(new randomAlgorithm()); 
         algorithmBox.addItem(new emptyAlgorithm()); 
