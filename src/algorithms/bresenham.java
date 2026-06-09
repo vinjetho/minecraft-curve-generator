@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import grid.*;
 import main.BlockType;
 
-public class bresenham implements ICircleAlgorithm {
+public class Bresenham implements ICircleAlgorithm {
 
     @Override
     public IGrid<BlockType> getGrid(int diameter) {

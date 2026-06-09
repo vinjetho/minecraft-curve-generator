@@ -4,7 +4,7 @@ import grid.*;
 import main.BlockType;
 import java.util.Random;
 
-public class randomAlgorithm implements ICircleAlgorithm {
+public class RandomAlgorithm implements ICircleAlgorithm {
 
     @Override
     public IGrid<BlockType> getGrid(int diameter) {

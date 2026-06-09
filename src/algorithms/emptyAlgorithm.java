@@ -4,7 +4,7 @@ import grid.IGrid;
 import grid.Grid;
 import main.BlockType;
 
-public class emptyAlgorithm implements ICircleAlgorithm {
+public class EmptyAlgorithm implements ICircleAlgorithm {
 
     @Override
     public IGrid<BlockType> getGrid(int diameter) {

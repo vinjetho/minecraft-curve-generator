@@ -3,7 +3,7 @@ package algorithms;
 import grid.*;
 import main.BlockType;
 
-public class badAlgorithm implements ICircleAlgorithm {
+public class BadAlgorithm implements ICircleAlgorithm {
 
     @Override
     public IGrid<BlockType> getGrid(int diameter) {
