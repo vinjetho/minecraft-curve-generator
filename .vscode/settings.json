@@ -3,6 +3,9 @@
         "src"
     ],
     "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [],
-    "java.inlayHints.parameterNames.enabled": "none"
+    "java.project.referencedLibraries": [
+        "test-lib\\**\\*.jar"
+    ],
+    "java.inlayHints.parameterNames.enabled": "none",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
