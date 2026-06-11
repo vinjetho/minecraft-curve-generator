@@ -15,4 +15,8 @@ public class LineSegment extends Line {
             super.pointIsOn(p) 
         );
     }
+
+    public Point midPoint() {
+        return a.lerpTo(b, 0.5);
+    }
 }

@@ -58,4 +58,7 @@ public record Point(double x, double y) {
         return this.divideBy(this.vectorMagnitude());
     }
 
+    public Point lerpTo(Point other, double amount){
+        return this.add(other.subtract(this).multiply(amount));
+    }
 }

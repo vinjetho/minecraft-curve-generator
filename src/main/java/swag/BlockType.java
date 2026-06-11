@@ -5,5 +5,7 @@ public enum BlockType {
     STAIR,
     SLAB,
     SHELF,
-    TRAPDOOR
+    TRAPDOOR,
+    ERROR,
+    AIR
 }

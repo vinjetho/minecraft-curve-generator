@@ -6,22 +6,7 @@ import java.util.List;
 
 public class Intersections {
     
-    public static List<Point> intersection(LineSegment l, Circle c) {
-        //throw new UnsupportedOperationException("Unimplemented method 'intersection'");
-        
-        /*
-        
-        p = l.a + t*(b-a)
-        |p - center|^2 = radius^2
-
-        At^2 + Bt + C = 0
-        d = b-a
-        f = a-center
-        A = d.x^2 + d.y^2
-        B = 2 * (f.x*d.x + f.y*d.y)
-        C = 
-        */
-
+    public static List<Point> intersection(Line l, Circle c) {
         //SHAME!!!
         List<Point> result = new ArrayList<>();
 
@@ -43,15 +28,30 @@ public class Intersections {
         double t1 = (-b - sqrtDisc) / (2*a);
         double t2 = (-b + sqrtDisc) / (2*a);
 
-        result.add(new Point(l.a.x() + t1*dx, l.a.y() + t1*dy));
-
-        Point n = new Point(l.a.x() + t2*dx, l.a.y() + t2*dy);
-        if (discriminant > 0 && l.pointIsOn(n)) // only add second point if not tangent
-            result.add(n);
+        Point p1 = new Point(l.a.x() + t1*dx, l.a.y() + t1*dy);
+        Point p2 = new Point(l.a.x() + t2*dx, l.a.y() + t2*dy);
+        
+        result.add(p1);
+        if (discriminant > 0){// only add second point if not tangent
+            result.add(p2);
+        } 
 
         return result;
 
 
+    }
+
+    public static List<Point> intersection(LineSegment l, Circle c){
+        List<Point> lineIntersections = intersection((Line) l, c);
+        List<Point> segmentIntersections = new ArrayList<>();
+
+        for (Point p : lineIntersections) {
+            if (l.pointIsOn(p)) {
+                segmentIntersections.add(p);
+            }
+        }
+
+        return segmentIntersections;
     }
 
 }

@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 
 import algorithms.*;
 import grid.*;
@@ -25,7 +24,7 @@ public class View extends JPanel{
     private JButton cornerButton;
     private JButton drawButton;
     private JSpinner spinner1;
-    private JComboBox algorithmBox;
+    private JComboBox<ICircleAlgorithm> algorithmBox;
 
     public View(Model model){
         this.model = model;
@@ -43,7 +42,7 @@ public class View extends JPanel{
         add(spinner1);
         spinner1.setValue(10);
 
-        algorithmBox = new JComboBox<ICircleAlgorithm>();
+        algorithmBox = new JComboBox<>();
         algorithmBox.setPreferredSize(new Dimension(200,30));
         algorithmBox.addItem(new IntersectionAlgorithm()); 
         algorithmBox.addItem(new Bresenham()); 
@@ -105,7 +104,6 @@ public class View extends JPanel{
         int size = Math.min(getWidth()-130, getHeight()-20);
         int cornerX = getWidth()-size-10;
         int cornerY = 10;
-        int spinnerValue = (int) spinner1.getValue();
 
         g2.setColor(new Color(128,128,128));
         g2.fillRect(cornerX, cornerY, size, size);
@@ -125,7 +123,7 @@ public class View extends JPanel{
             //TODO: add colorscheme functionality
             Rectangle cellBounds = new Rectangle(cornerX + (c.pos().col()*cellSize) + totalMargin, cornerY + (c.pos().row()*cellSize) + totalMargin, cellSize, cellSize);
             if (c.value() != null){
-                g2.setColor(new Color(0,0,255));
+                g2.setColor(ColorScheme.COLORS.get(c.value()));
                 g2.fill(cellBounds);
             }
             g2.setColor(new Color(255,255,255, 128));
